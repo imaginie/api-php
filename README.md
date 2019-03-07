@@ -16,7 +16,7 @@ PHP >= 7.1
 Make sure you have the prerequisites above and then you can install our library using composer.
 Navigate to your project folder and type:
 
-```
+```shell-script
 $ composer require imaginie/api-client
 ```
 
@@ -25,7 +25,7 @@ $ composer require imaginie/api-client
 Composer generates a **autoload.php** file in vendor **folder**.
 Include this file and then you can use our library.
 
-```
+```php
 <?php
 require_once  '/path/to/vendor/autoload.php';
 use ApiClient\Imaginie;
@@ -40,7 +40,7 @@ var_dump($students);
 
 **login()** - returns the JWT token
 
-```
+```php
 <?php
 require_once  '/path/to/vendor/autoload.php';
 use ApiClient\Imaginie;
@@ -57,7 +57,7 @@ $Imaginie->setToken('YourTokenHere');
 
 **getStudents()** - returns a list with your school students
 
-```
+```php
 <?php
 require_once  '/path/to/vendor/autoload.php';
 use ApiClient\Imaginie;
@@ -69,7 +69,7 @@ var_dump($students);
 
 **getStudent($id)** - returns a specific student
 
-```
+```php
 <?php
 require_once  '/path/to/vendor/autoload.php';
 use ApiClient\Imaginie;
