@@ -1,0 +1,20 @@
+{
+    "name": "imaginie/api-client",
+    "description": "Imaginie PHP API Client",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Imaginie",
+            "email": "imaginie@imaginie.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "ApiClient": "src/"
+        }
+    }
+}
