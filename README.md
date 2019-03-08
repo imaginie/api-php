@@ -67,6 +67,30 @@ $students = $Imaginie->getStudents();
 var_dump($students);
 ```
 
+response:
+
+```json
+[
+	{
+		"code": "123456",
+		"email": "teste@teste.com.br",
+		"name": "João do Teste",
+		"class_code": [
+			"XPTOEM3A"
+		]
+	},
+	{
+		"code": "123456",
+		"email": "teste@teste.com.br",
+		"name": "João do Teste",
+		"class_code": [
+			"XPTOEM3A"
+		]
+	}
+]
+```
+
+
 **getStudent($id)** - returns a specific student
 
 ```php
@@ -77,6 +101,19 @@ use ApiClient\Imaginie;
 $Imaginie = new Imaginie('your@login.com', 'your-password');
 $student = $Imaginie->getStudent(1234567890);
 var_dump($student);
+```
+
+response:
+
+```json
+{
+	"code": "123456",
+	"email": "teste@teste.com.br",
+	"name": "João do Teste",
+	"class_code": [
+		"XPTOEM3A"
+	]
+}
 ```
 
 **createStudent($name, $email, $code, $class_code=null)** - returns an object with the created student
@@ -91,6 +128,19 @@ $student = $Imaginie->createStudent('Michael Jackson', 'student@email.com', 'STD
 var_dump($student);
 ```
 
+response:
+
+```json
+{
+	"code": "STD001",
+	"email": "student@email.com",
+	"name": "Michael Jackson",
+	"class_code": [
+		"ABC123"
+	]
+}
+```
+
 **updateStudent($id, $name, $email, $code=null, $class_code=null)** - returns an object with the updated student
 
 ```php
@@ -101,6 +151,19 @@ use ApiClient\Imaginie;
 $Imaginie = new Imaginie('your@login.com', 'your-password');
 $student = $Imaginie->updateStudent(19642009, 'Michael Joseph Jackson', 'michael@jackson.com');
 var_dump($student);
+```
+
+response:
+
+```json
+{
+	"code": "STD001",
+	"email": "student@email.com",
+	"name": "Michael Jackson",
+	"class_code": [
+		"ABC123"
+	]
+}
 ```
 
 **deleteStudent($id)**
@@ -114,6 +177,144 @@ $Imaginie = new Imaginie('your@login.com', 'your-password');
 try
 {
     $Imaginie->deleteStudent(1234567890);
+}
+catch (Exception $ex)
+{
+    die($ex->getMessage());
+}
+```
+
+**getClasses()** - returns a list with your school Classes
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$classes = $Imaginie->getClasses();
+var_dump($classes);
+```
+
+response:
+
+```json
+[
+	{
+    "id": 123,
+    "name": "Ensino Médio",
+    "description": "Ensino Médio",
+    "code": "EM1",
+    "parent": "ESC123",
+    "school": "Teste",
+    "school_id": 123,
+    "total_students": 0
+  },
+	{
+    "id": 123,
+    "name": "Ensino Médio",
+    "description": "Ensino Médio",
+    "code": "EM1",
+    "parent": "ESC123",
+    "school": "Teste",
+    "school_id": 123,
+    "total_students": 0
+  }
+]
+```
+
+**getClass($id)** - returns a specific Class
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$class = $Imaginie->getClass(1234567890);
+var_dump($class);
+```
+
+response:
+
+```json
+{
+  "id": 123,
+  "name": "Ensino Médio",
+  "description": "Ensino Médio",
+  "code": "EM1",
+  "parent": "ESC123",
+  "school": "Teste",
+  "school_id": 123,
+  "total_students": 0
+}
+```
+
+**createClass($name, $description, $code, $parent_code=null)** - returns an object with the created Class
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$class = $Imaginie->createClass('Ensino Médio', 'Ensino Médio', 'EM1', 'ESC123');
+var_dump($class);
+```
+
+response:
+
+```json
+{
+  "id": 123,
+  "name": "Ensino Médio",
+  "description": "Ensino Médio",
+  "code": "EM1",
+  "parent": "ESC123",
+  "school": "Teste",
+  "school_id": 123,
+  "total_students": 0
+}
+```
+
+**updateClass($id, $name, $email, $code=null, $class_code=null)** - returns an object with the updated Class
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$class = $Imaginie->updateClass(19642009, 'Ensino Médio', 'Ensino Médio', 'EM1', 'ESC123');
+var_dump($class);
+```
+
+response:
+
+```json
+{
+  "id": 123,
+  "name": "Ensino Médio",
+  "description": "Ensino Médio",
+  "code": "EM1",
+  "parent": "ESC123",
+  "school": "Teste",
+  "school_id": 123,
+  "total_students": 0
+}
+```
+
+**deleteClass($id)**
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+try
+{
+    $Imaginie->deleteClass(1234567890);
 }
 catch (Exception $ex)
 {
