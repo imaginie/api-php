@@ -515,6 +515,171 @@ catch (Exception $ex)
 }
 ```
 
+**getStudentEssays($student_code, $essay_status=null)**
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+try
+{
+    $Imaginie->getStudentEssays('STD001');
+}
+catch (Exception $ex)
+{
+    die($ex->getMessage());
+}
+```
+
+response:
+
+```json
+[
+  {
+    "id": 331324,
+    "theme": {
+      "id": 564,
+      "title": "Impactos ambientais do consumo no século XXI",
+      "signed_thumb": "https://s3-sa-east-1.amazonaws.com/img.br/images/themes/2017/2/21/bb82b544-f85a-11e6-b266-024749005da7/impactos-ambientais-do-consumojpg?Signature=GrtYmaMB1%2FyWEtxYmUC3hxa%2Bl7A%3D&Expires=1502162722&AWSAccessKeyId=AKIAJT6DYWKITELZRSQQ",
+      "school": null
+    },
+    "status": "CORRECTED",
+    "assessment": null,
+    "final_score": 0,
+    "created": "2017-03-06T22:54:54Z",
+    "report": "Fuga ao tema",
+    "exam": 2,
+    "school": {
+      "logo": "https://app.imaginie.com/static/images/logo-icone-50px.png",
+      "name": "Imaginie"
+    },
+    "author": 24765,
+    "author_code": "MariaZ",
+    "sent_correction": "2017-03-06T22:59:21Z",
+    "finished": "2017-06-20T17:10:33Z",
+    "deadline": null,
+    "criteria_values": [
+      {
+        "name": "Critério 1 - Demonstrar domínio da norma culta",
+        "criteria_value": 0,
+        "color": "#ffff00"
+      },
+      {
+        "name": "Critério 2 - Compreender a Proposta",
+        "criteria_value": 0,
+        "color": "#ff9634"
+      },
+      {
+        "name": "Critério 3 - Selecionar, relacionar argumentos",
+        "criteria_value": 0,
+        "color": "#5e7bff"
+      },
+      {
+        "name": "Critério 4 - Conhecer os mecanismos linguísticos para a construção da argumentação",
+        "criteria_value": 0,
+        "color": "#0cff66"
+      },
+      {
+        "name": "Critério 5 - Elaborar a proposta de solução para o problema ",
+        "criteria_value": 0,
+        "color": "#fe02ff"
+      }
+    ]
+  },
+  {
+    "id": 331323,
+    "theme": {
+      "id": 564,
+      "title": "Impactos ambientais do consumo no século XXI",
+      "signed_thumb": "https://s3-sa-east-1.amazonaws.com/img.br/images/themes/2017/2/21/bb82b544-f85a-11e6-b266-024749005da7/impactos-ambientais-do-consumojpg?Signature=7nYB9EypC1Aoevn8Gm9ENofdDnI%3D&Expires=1502161673&AWSAccessKeyId=AKIAJT6DYWKITELZRSQQ",
+      "school": null
+    },
+    "status": "CORRECTED",
+    "report": "Válida",
+    "assessment": null,
+    "final_score": 840,
+    "created": "2017-03-06T20:16:51Z",
+    "exam": 2,
+    "school": {
+      "logo": "https://app.imaginie.com/static/images/logo-icone-50px.png",
+      "name": "Imaginie"
+    },
+    "author": 24765,
+    "author_code": "123456",
+    "sent_correction": "2017-03-06T22:59:01Z",
+    "finished": "2017-06-19T13:23:09Z",
+    "deadline": null,
+    "criteria_values": [
+      {
+        "name": "Critério 1 - Demonstrar domínio da norma culta",
+        "criteria_value": 120,
+        "color": "#ffff00"
+      },
+      {
+        "name": "Critério 2 - Compreender a Proposta",
+        "criteria_value": 160,
+        "color": "#ff9634"
+      },
+      {
+        "name": "Critério 3 - Selecionar, relacionar argumentos",
+        "criteria_value": 200,
+        "color": "#5e7bff"
+      },
+      {
+        "name": "Critério 4 - Conhecer os mecanismos linguísticos para a construção da argumentação",
+        "criteria_value": 160,
+        "color": "#0cff66"
+      },
+      {
+        "name": "Critério 5 - Elaborar a proposta de solução para o problema ",
+        "criteria_value": 200,
+        "color": "#fe02ff"
+      }
+    ]
+  }
+]
+```
+
+**createEssay($student_code, $theme_id, $assessment_id, $request_correction, $school_correction, $image_url, $comments_required)**
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+try
+{
+    $Imaginie->createEssay(24765, 399, 743, true, false, 'http://www.google.com', true);
+}
+catch (Exception $ex)
+{
+    die($ex->getMessage());
+}
+```
+
+response:
+
+```json
+{
+  "id": 334575,
+  "author": 24765,
+  "theme": 399,
+  "assessment": 743,
+  "font_size": null,
+  "text": null,
+  "request_correction": true,
+  "ready_to_correction": false,
+  "image_url": "http://www.google.com",
+  "uuid_str": "7a5b2f99-7a43-11e7-b0b1-14109fe485f7",
+  "created": "2017-08-06T01:06:21.724551",
+  "finished": null,
+  "comments_required": false
+}
+```
+
 ## Samples
 
 There is a **samples** folder with many examples
