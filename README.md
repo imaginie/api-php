@@ -322,6 +322,199 @@ catch (Exception $ex)
 }
 ```
 
+**getAssessments()** - returns a list with your school Assessments
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$assessments = $Imaginie->getAssessments();
+var_dump($assessments);
+```
+
+response:
+
+```json
+[
+  {
+    "id": 742,
+    "theme": 399,
+    "theme_title": "Ocupação das escolas de São Paulo: a educação é para todos?",
+    "classes": [
+      {
+        "code": "XPTOEM3A",
+        "name": "A",
+        "description": "XPTO/EnsinoMedio/3/A"
+      }
+    ],
+    "created": "2017-08-06T00:04:03.382545",
+    "school_correction": false,
+    "school_payment": false,
+    "number_of_corrections": 1,
+    "drafts_available": "2017-01-01T00:00:00",
+    "deadline": "2017-12-01T00:00:00",
+    "draft_count": 0,
+    "sent_count": 0,
+    "finished_count": 0
+  },
+  {
+    "id": 742,
+    "theme": 399,
+    "theme_title": "Ocupação das escolas de São Paulo: a educação é para todos?",
+    "classes": [
+      {
+        "code": "XPTOEM3A",
+        "name": "A",
+        "description": "XPTO/EnsinoMedio/3/A"
+      }
+    ],
+    "created": "2017-08-06T00:04:03.382545",
+    "school_correction": false,
+    "school_payment": false,
+    "number_of_corrections": 1,
+    "drafts_available": "2017-01-01T00:00:00",
+    "deadline": "2017-12-01T00:00:00",
+    "draft_count": 0,
+    "sent_count": 0,
+    "finished_count": 0
+  }
+]
+```
+
+**getAssessment($id)** - returns a specific Assessment
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$assessment = $Imaginie->getAssessment(1234567890);
+var_dump($assessment);
+```
+
+response:
+
+```json
+{
+  "id": 1234567890,
+  "theme": 399,
+  "theme_title": "Ocupação das escolas de São Paulo: a educação é para todos?",
+  "classes": [
+    {
+      "code": "XPTOEM3A",
+      "name": "A",
+      "description": "XPTO/EnsinoMedio/3/A"
+    }
+  ],
+  "created": "2017-08-06T00:04:03.382545",
+  "school_correction": false,
+  "school_payment": false,
+  "number_of_corrections": 1,
+  "drafts_available": "2017-01-01T00:00:00",
+  "deadline": "2017-12-01T00:00:00",
+  "draft_count": 0,
+  "sent_count": 0,
+  "finished_count": 0
+}
+```
+
+**createAssessment($theme_id, $drafts_available, $deadline, $class_code=null)** - returns an object with the created Assessment
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$assessment = $Imaginie->createAssessment(399, "2017-01-01T00:00:00", "2017-12-01T00:00:00", "XPTOEM3A");
+var_dump($assessment);
+```
+
+response:
+
+```json
+{
+  "id": 1234567890,
+  "theme": 399,
+  "theme_title": "Ocupação das escolas de São Paulo: a educação é para todos?",
+  "classes": [
+    {
+      "code": "XPTOEM3A",
+      "name": "A",
+      "description": "XPTO/EnsinoMedio/3/A"
+    }
+  ],
+  "created": "2017-08-06T00:04:03.382545",
+  "school_correction": false,
+  "school_payment": false,
+  "number_of_corrections": 1,
+  "drafts_available": "2017-01-01T00:00:00",
+  "deadline": "2017-12-01T00:00:00",
+  "draft_count": 0,
+  "sent_count": 0,
+  "finished_count": 0
+}
+```
+
+**updateAssessment($id, $name, $email, $code=null, $class_code=null)** - returns an object with the updated Assessment
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$assessment = $Imaginie->updateAssessment(1234567890, 399, "2017-01-01T00:00:00", "2017-12-01T00:00:00", "XPTOEM3A");
+var_dump($assessment);
+```
+
+response:
+
+```json
+{
+  "id": 1234567890,
+  "theme": 399,
+  "theme_title": "Ocupação das escolas de São Paulo: a educação é para todos?",
+  "classes": [
+    {
+      "code": "XPTOEM3A",
+      "name": "A",
+      "description": "XPTO/EnsinoMedio/3/A"
+    }
+  ],
+  "created": "2017-08-06T00:04:03.382545",
+  "school_correction": false,
+  "school_payment": false,
+  "number_of_corrections": 1,
+  "drafts_available": "2017-01-01T00:00:00",
+  "deadline": "2017-12-01T00:00:00",
+  "draft_count": 0,
+  "sent_count": 0,
+  "finished_count": 0
+}
+```
+
+**deleteAssessment($id)**
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+try
+{
+    $Imaginie->deleteAssessment(1234567890);
+}
+catch (Exception $ex)
+{
+    die($ex->getMessage());
+}
+```
+
 ## Samples
 
 There is a **samples** folder with many examples
