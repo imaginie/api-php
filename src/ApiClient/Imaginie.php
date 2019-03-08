@@ -1,5 +1,6 @@
 <?php
 namespace ApiClient;
+use Exception;
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -18,11 +19,12 @@ class Imaginie
   const BASE_URL = 'https://app.imaginie.com/api/v3';
   const AUTH_URL = 'https://app.imaginie.com/api/api-token-auth/';
 
-  protected $_login;
+  protected $_username;
   protected $_password;
   private $_token;
   protected $_http_status;
   protected $_http_error;
+  private $_retry;
 
   /**
    * Class constructor
@@ -34,11 +36,12 @@ class Imaginie
    * @param string username_or_token The username for login or JWT token
    * @param string password username password. Use only if you are not using token on the first param
    */
-  public function __construct($username_or_token=null, $password=null)
+  public function __construct($username, $password, $token=null)
   {
-    $this->_username = $password ? $username_or_token : null;
+    $this->_username = $username;
     $this->_password = $password;
-    $this->_token = $password ? null : $username_or_token;
+    $this->_token = $token ? $token : null;
+    $this->_retry = true;
   }
 
   protected function _call($method, $url, $data=[])
@@ -95,10 +98,16 @@ class Imaginie
     }
     if(!$result)
     {
-      var_dump($result);
-      var_dump($this->_http_status);
-      var_dump($this->_http_error);
-      die('Connection Failure');
+      if ($this->_http_status === 401 && $this->_retry === true)
+      {
+        $this->_retry = false;
+        $this->login();
+        return $this->_call($method, $url, $data);
+      }
+
+      $error_message = 'HTTP STATUS: ' . $this->_http_status;
+      $error_message .= ' - HTTP ERROR: ' . $this->_http_error;
+      throw new Exception($error_message);
     }
     curl_close($curl);
     return json_decode($result);
@@ -116,9 +125,16 @@ class Imaginie
       'username' => $this->_username,
       'password' => $this->_password
     ];
-    $token = $this->_call('POST', self::AUTH_URL, $data);
-    $this->setToken($token->token);
+    try
+    {
+      $token = $this->_call('POST', self::AUTH_URL, $data);
+    }
+    catch (Exception $ex)
+    {
+      die('Username and/or password invalid');
+    }
 
+    $this->setToken($token->token);
     return $token->token;
   }
 
@@ -156,7 +172,16 @@ class Imaginie
     {
       $data['class_code'] = [$class_code];
     }
-    return $this->_call('POST', $url, $data);
+
+    try
+    {
+      $result = $this->_call('POST', $url, $data);
+      return $result;
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function updateStudent($id, $name, $email, $code=null, $class_code=null)
@@ -174,25 +199,58 @@ class Imaginie
     {
       $data['class_code'] = [$class_code];
     }
-    return $this->_call('PATCH', $url, $data);
+
+    try
+    {
+      $result = $this->_call('PATCH', $url, $data);
+      return $result;
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function deleteStudent($id)
   {
     $url = self::BASE_URL . '/students/' . $id;
-    return $this->_call('DELETE', $url);
+
+    try
+    {
+      $result = $this->_call('DELETE', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function getClasses()
   {
     $url = self::BASE_URL . '/classes';
-    return $this->_call('GET', $url);
+
+    try
+    {
+      $result = $this->_call('GET', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function getClass($id)
   {
     $url = self::BASE_URL . '/classes/' . $id;
-    return $this->_call('GET', $url);
+
+    try
+    {
+      $result = $this->_call('GET', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function createClass($name, $description, $code, $parent_code=null)
@@ -207,7 +265,15 @@ class Imaginie
     {
       $data['parent_code'] = [$parent_code];
     }
-    return $this->_call('POST', $url, $data);
+
+    try
+    {
+      $result = $this->_call('POST', $url, $data);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function updateClass($code, $name, $description, $new_code=null, $parent_code=null)
@@ -225,25 +291,57 @@ class Imaginie
     {
       $data['parent_code'] = [$parent_code];
     }
-    return $this->_call('PATCH', $url, $data);
+
+    try
+    {
+      $result = $this->_call('PATCH', $url, $data);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function deleteClass($code)
   {
     $url = self::BASE_URL . '/classes/' . $code;
-    return $this->_call('DELETE', $url);
+
+    try
+    {
+      $result = $this->_call('DELETE', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function getAssessments()
   {
     $url = self::BASE_URL . '/assessments';
-    return $this->_call('GET', $url);
+
+    try
+    {
+      $result = $this->_call('GET', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function getAssessment($id)
   {
     $url = self::BASE_URL . '/assessments/' . $id;
-    return $this->_call('GET', $url);
+
+    try
+    {
+      $result = $this->_call('GET', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function createAssessment($theme_id, $drafts_available, $deadline, $class_code=null)
@@ -258,7 +356,15 @@ class Imaginie
     {
       $data['class_code'] = [$class_code];
     }
-    return $this->_call('POST', $url, $data);
+
+    try
+    {
+      $result = $this->_call('POST', $url, $data);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function updateAssessment($id, $theme_id, $drafts_available,
@@ -275,19 +381,43 @@ class Imaginie
     {
       $data['class_code'] = [$class_code];
     }
-    return $this->_call('PATCH', $url, $data);
+
+    try
+    {
+      $result = $this->_call('PATCH', $url, $data);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function deleteAssessment($id)
   {
     $url = self::BASE_URL . '/assessments/' . $id;
-    return $this->_call('DELETE', $url);
+
+    try
+    {
+      $result = $this->_call('DELETE', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function getAssessmentEssays($class_code, $assessment_id)
   {
     $url = self::BASE_URL . '/schools/' . $class_code . '/assessments/' . $assessment_id;
-    return $this->_call('GET', $url);
+
+    try
+    {
+      $result = $this->_call('GET', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function getStudentEssays($student_code, $essay_status=null)
@@ -297,7 +427,15 @@ class Imaginie
     {
       $url .= '?status=' . $essay_status;
     }
-    return $this->_call('GET', $url);
+
+    try
+    {
+      $result = $this->_call('GET', $url);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 
   public function createEssay($student_code, $theme_id, $assessment_id,
@@ -313,6 +451,14 @@ class Imaginie
       'image_url' => $image_url,
       'comments_required' => (bool) $comments_required
     ];
-    return $this->_call('POST', $url, $data);
+
+    try
+    {
+      $result = $this->_call('POST', $url, $data);
+    }
+    catch (Exception $ex)
+    {
+      throw new Exception($ex->getMessage());
+    }
   }
 }

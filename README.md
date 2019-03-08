@@ -8,8 +8,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-PHP >= 7.1
-[Composer](https://getcomposer.org/doc/00-intro.md) - Dependency Manager for PHP
+- PHP >= 7.1
+- [Composer](https://getcomposer.org/doc/00-intro.md) - Dependency Manager for PHP
 
 ### Installing
 
@@ -69,7 +69,7 @@ var_dump($students);
 
 **getStudent($id)** - returns a specific student
 
-```php
+```phpe
 <?php
 require_once  '/path/to/vendor/autoload.php';
 use ApiClient\Imaginie;
