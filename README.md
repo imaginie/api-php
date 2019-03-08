@@ -69,7 +69,7 @@ var_dump($students);
 
 **getStudent($id)** - returns a specific student
 
-```phpe
+```php
 <?php
 require_once  '/path/to/vendor/autoload.php';
 use ApiClient\Imaginie;
@@ -77,6 +77,48 @@ use ApiClient\Imaginie;
 $Imaginie = new Imaginie('your@login.com', 'your-password');
 $student = $Imaginie->getStudent(1234567890);
 var_dump($student);
+```
+
+**createStudent($name, $email, $code, $class_code=null)** - returns an object with the created student
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$student = $Imaginie->createStudent('Michael Jackson', 'student@email.com', 'STD001', 'ABC123');
+var_dump($student);
+```
+
+**updateStudent($id, $name, $email, $code=null, $class_code=null)** - returns an object with the updated student
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$student = $Imaginie->updateStudent(19642009, 'Michael Joseph Jackson', 'michael@jackson.com');
+var_dump($student);
+```
+
+**deleteStudent($id)**
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+try
+{
+    $Imaginie->deleteStudent(1234567890);
+}
+catch (Exception $ex)
+{
+    die($ex->getMessage());
+}
 ```
 
 ## Samples
