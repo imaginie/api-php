@@ -5,3 +5,4 @@ use ApiClient\Imaginie;
 
 $Imaginie = new Imaginie(Config::API_LOGIN, Config::API_PASSWORD);
 var_dump($Imaginie->getStudents());
+var_dump($Imaginie->getResponseHeaders());

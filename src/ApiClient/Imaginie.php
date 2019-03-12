@@ -25,6 +25,7 @@ class Imaginie
   protected $_http_status;
   protected $_http_error;
   private $_retry;
+  private $_response;
 
   /**
    * Class constructor
@@ -42,6 +43,35 @@ class Imaginie
     $this->_password = $password;
     $this->_token = $token ? $token : null;
     $this->_retry = true;
+    $this->_response = [
+      'headers' => [],
+      'body' => []
+    ];
+  }
+
+  public function setResponseHeaders($headers)
+  {
+    $this->_response['headers'] = $headers;
+  }
+
+  public function setResponseBody($body)
+  {
+    $this->_response['body'] = $body;
+  }
+
+  public function getResponse()
+  {
+    return $this->_response;
+  }
+
+  public function getResponseHeaders()
+  {
+    return $this->_response['headers'];
+  }
+
+  public function getResponseBody()
+  {
+    return $this->_response['body'];
   }
 
   protected function _call($method, $url, $data=[])
@@ -90,12 +120,41 @@ class Imaginie
     curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+
+    $response_headers = [];
+    curl_setopt($curl, CURLOPT_HEADERFUNCTION,
+      function($curl, $response_header) use (&$response_headers)
+      {
+        $len = strlen($response_header);
+        $response_header = explode(':', $response_header, 2);
+        if (count($response_header) < 2)
+        {
+          return $len;
+        }
+
+        $name = strtolower(trim($response_header[0]));
+        if (!array_key_exists($name, $response_headers))
+        {
+          $response_headers[$name] = [trim($response_header[1])];
+        }
+        else
+        {
+          $response_headers[$name][] = trim($response_header[1]);
+        }
+        return $len;
+      }
+    );
+
     $result = curl_exec($curl);
     $this->_http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     if (curl_error($curl))
     {
       $this->_http_error = curl_error($curl);
     }
+
+    $this->setResponseHeaders($response_headers);
+    $this->setResponseBody($result);
+
     if(!$result)
     {
       if ($this->_http_status === 401 && $this->_retry === true)
