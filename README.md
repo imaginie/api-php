@@ -38,9 +38,6 @@ var_dump($students);
 
 ### Getting Response - Body and Headers
 
-Composer generates a **autoload.php** file in vendor **folder**.
-Include this file and then you can use our library.
-
 ```php
 <?php
 require_once  '/path/to/vendor/autoload.php';
