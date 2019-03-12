@@ -36,6 +36,34 @@ $students = $Imaginie->getStudents();
 var_dump($students);
 ```
 
+### Getting Response - Body and Headers
+
+Composer generates a **autoload.php** file in vendor **folder**.
+Include this file and then you can use our library.
+
+```php
+<?php
+require_once  '/path/to/vendor/autoload.php';
+use ApiClient\Imaginie;
+
+$Imaginie = new Imaginie('your@login.com', 'your-password');
+$Imaginie->login(); // this is not required - it returns the JWT token
+
+// Methods return response's body
+$students = $Imaginie->getStudents();
+var_dump($students);
+
+// You can get response headers and body separately
+$response_body = $Imaginie->getResponseBody();
+$response_headers = $Imaginie->getResponseHeaders();
+var_dump($response_body);
+var_dump($response_headers);
+
+// OR
+$response = $Imaginie->getResponse(); // returns an array with 'headers' and 'body'
+var_dump($response);
+```
+
 ## Implemented methods
 
 **login()** - returns the JWT token
